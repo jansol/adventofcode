@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input/3.txt");
+const INPUT: &str = include_str!("input/03.txt");
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 enum ClaimState {
@@ -27,7 +27,7 @@ fn main() {
     for c in &claims {
         claim_region(&mut fabric, c.id, c.area);
     }
-    
+
     // Part 1
     let result: usize = fabric.iter().map(|row| row.iter().filter(|x| **x == Conflicting).count()).sum();
 
@@ -52,7 +52,7 @@ fn parse_claim(line: &str) -> Claim {
         let parts = words[3].split('x').map(|x| x.parse().unwrap()).collect::<Vec<usize>>();
         (parts[0], parts[1])
     };
-    
+
     Claim {
         id,
         area: Rect {
@@ -85,6 +85,6 @@ fn has_overlap(fabric: &Vec<Vec<ClaimState>>, area: Rect) -> bool {
             }
         }
     }
-    
+
     return false
 }

@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input/2.txt");
+const INPUT: &str = include_str!("input/02.txt");
 
 fn main() {
     let lines = INPUT.lines().collect::<Vec<&str>>();
@@ -22,27 +22,27 @@ fn main() {
 
 fn exactly_two(s: &&&str) -> bool {
     let mut chars = [0u8; 256];
-    
+
     for &b in s.as_bytes() {
         chars[b as usize] += 1;
     }
-    
+
     chars.iter().filter(|&&x| x == 2).count() > 0
 }
 
 fn exactly_three(s: &&&str) -> bool {
     let mut chars = [0u8; 256];
-    
+
     for &b in s.as_bytes() {
         chars[b as usize] += 1;
     }
-    
+
     chars.iter().filter(|&&x| x == 3).count() > 0
 }
 
 fn different_chars(a: &str, b: &str) -> usize {
     assert_eq!(a.len(), b.len());
-    
+
     a.as_bytes().iter().zip(b.as_bytes().iter()).map(|(&a,&b)| a != b).filter(|&x| x).count()
 }
 
@@ -54,6 +54,6 @@ fn id_pair(lines: &Vec<&str>) -> (usize, usize) {
             }
         }
     };
-    
+
     (0, 0)
 }

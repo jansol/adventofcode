@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-const INPUT: &str = include_str!("input/1.txt");
+const INPUT: &str = include_str!("input/01.txt");
 
 fn main() {
     let deltas = INPUT.lines().map(|l| l.parse::<i64>().unwrap()).collect::<Vec<i64>>();
