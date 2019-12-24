@@ -19,10 +19,6 @@ fn main() {
     println!("Part 2) Valid passwords: {}\n", cnt);
 }
 
-fn bruteforce(remaining_digits: i64,  upper: i64) -> usize {
-   0
-}
-
 fn is_valid(pw: &[u8]) -> bool {
     let flags = pw.iter().map(|&d| d as i8).fold((-1i8, false, false),
         |(prev, has_pair, decreases), digit|
