@@ -6,6 +6,10 @@ enum Instruction {
     Mul(i64, i64, usize),
     Input(usize),
     Output(i64),
+    JumpIfTrue(i64, usize),
+    JumpIfFalse(i64, usize),
+    LessThan(i64, i64, usize),
+    Equals(i64, i64, usize),
     Halt,
     Unknown(i64),
 }
@@ -17,7 +21,7 @@ pub fn exec(ram: &mut [i64], inputs: &[i64]) -> Vec<i64> {
     let mut inputs = inputs;
 
     loop {
-        let (op, advance) = decode(ram, pc);
+        let (op, mut advance) = decode(ram, pc);
 
         match op {
             Add(a, b, dst) => {
@@ -32,6 +36,24 @@ pub fn exec(ram: &mut [i64], inputs: &[i64]) -> Vec<i64> {
             },
             Output(a) => {
                 outputs.push(a);
+            },
+            JumpIfTrue(x, dst) => {
+                if x != 0 {
+                    pc = dst;
+                    advance = 0;
+                }
+            },
+            JumpIfFalse(x, dst) => {
+                if x == 0 {
+                    pc = dst;
+                    advance = 0;
+                }
+            },
+            LessThan(a, b, dst) => {
+                ram[dst] = if a < b { 1 } else { 0 };
+            },
+            Equals(a, b, dst) => {
+                ram[dst] = if a == b { 1 } else { 0 };
             },
             Halt => {
                 return outputs
@@ -61,7 +83,7 @@ fn decode(mem: &[i64], pc: usize) -> (Instruction, usize) {
     let tmp = format!("{:05}", mem[pc]);
     let mode_1 = tmp.as_bytes()[2];
     let mode_2 = tmp.as_bytes()[1];
-    let mode_3 = tmp.as_bytes()[0];
+    //let mode_3 = tmp.as_bytes()[0];
     let code: i64 = tmp[3..5].parse().unwrap();
 
     match code {
@@ -69,6 +91,10 @@ fn decode(mem: &[i64], pc: usize) -> (Instruction, usize) {
         2 => (Mul(param!(mode_1, 1), param!(mode_2, 2), mem[pc+3].try_into().unwrap()), 4),
         3 => (Input(mem[pc+1].try_into().unwrap()), 2),
         4 => (Output(param!(mode_1, 1)), 2),
+        5 => (JumpIfTrue(param!(mode_1, 1), param!(mode_2, 2).try_into().unwrap()), 3),
+        6 => (JumpIfFalse(param!(mode_1, 1), param!(mode_2, 2).try_into().unwrap()), 3),
+        7 => (LessThan(param!(mode_1, 1), param!(mode_2, 2), mem[pc+3].try_into().unwrap()), 4),
+        8 => (Equals(param!(mode_1, 1), param!(mode_2, 2), mem[pc+3].try_into().unwrap()), 4),
         99 => (Halt, 0),
         x => (Unknown(x), 1),
     }
