@@ -10,7 +10,7 @@ fn main() {
     // "restore program to its state before the 1202 alarm"
     ram[1] = 12;
     ram[2] = 2;
-    exec_intcode(&mut ram[..]);
+    let _ = exec_intcode(&mut ram[..], &Vec::new());
 
     // Answer with my input was 4714701
     println!("Part 1) Value at position 0: {}\n", ram[0]);
@@ -32,7 +32,7 @@ fn main() {
             ram = program.clone();
             ram[1] = noun;
             ram[2] = verb;
-            exec_intcode(&mut ram);
+            let _ = exec_intcode(&mut ram[..], &Vec::new());
             result = ram[0];
         }
     }
@@ -48,35 +48,35 @@ mod tests {
     #[test]
     fn day02_part1_example_0() {
         let mut program = vec![1,9,10,3,2,3,11,0,99,30,40,50];
-        exec_intcode(&mut program[..]);
+        let _ = exec_intcode(&mut program[..], &Vec::new());
         assert_eq!(program, vec![3500,9,10,70,2,3,11,0,99,30,40,50])
     }
 
     #[test]
     fn day02_part1_example_1() {
         let mut program = vec![1,0,0,0,99];
-        exec_intcode(&mut program[..]);
+        let _ = exec_intcode(&mut program[..], &Vec::new());
         assert_eq!(program, vec![2,0,0,0,99]);
     }
 
     #[test]
     fn day02_part1_example_2() {
         let mut program = vec![2,3,0,3,99];
-        exec_intcode(&mut program[..]);
+        let _ = exec_intcode(&mut program[..], &Vec::new());
         assert_eq!(program, vec![2,3,0,6,99]);
     }
 
     #[test]
     fn day02_part1_example_3() {
         let mut program = vec![2,4,4,5,99,0];
-        exec_intcode(&mut program[..]);
+        let _ = exec_intcode(&mut program[..], &Vec::new());
         assert_eq!(program, vec![2,4,4,5,99,9801]);
     }
 
     #[test]
     fn day02_part1_example_4() {
         let mut program = vec![1,1,1,4,99,5,6,0,99];
-        exec_intcode(&mut program[..]);
+        let _ = exec_intcode(&mut program[..], &Vec::new());
         assert_eq!(program, vec![30,1,1,4,2,5,6,0,99]);
     }
 }

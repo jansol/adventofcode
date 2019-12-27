@@ -19,7 +19,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn day00_part0_example_0() {
+    fn day05_part1_example_0() {
         let res = 42;
         assert_eq!(42, res);
     }
