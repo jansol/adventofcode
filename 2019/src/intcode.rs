@@ -1,10 +1,11 @@
 use std::convert::TryInto;
 
+#[derive(Debug)]
 enum Instruction {
     Add(i64, i64, usize),
     Mul(i64, i64, usize),
     Input(usize),
-    Output(usize),
+    Output(i64),
     Halt,
     Unknown(i64),
 }
@@ -17,6 +18,7 @@ pub fn exec(ram: &mut [i64], inputs: &[i64]) -> Vec<i64> {
 
     loop {
         let (op, advance) = decode(ram, pc);
+
         match op {
             Add(a, b, dst) => {
                 ram[dst] = a + b;
@@ -28,8 +30,8 @@ pub fn exec(ram: &mut [i64], inputs: &[i64]) -> Vec<i64> {
                 ram[dst] = inputs[0];
                 inputs = &inputs[1..];
             },
-            Output(src) => {
-                outputs.push(ram[src]);
+            Output(a) => {
+                outputs.push(a);
             },
             Halt => {
                 return outputs
@@ -66,7 +68,7 @@ fn decode(mem: &[i64], pc: usize) -> (Instruction, usize) {
         1 => (Add(param!(mode_1, 1), param!(mode_2, 2), mem[pc+3].try_into().unwrap()), 4),
         2 => (Mul(param!(mode_1, 1), param!(mode_2, 2), mem[pc+3].try_into().unwrap()), 4),
         3 => (Input(mem[pc+1].try_into().unwrap()), 2),
-        4 => (Output(param!(mode_1, 1).try_into().unwrap()), 2),
+        4 => (Output(param!(mode_1, 1)), 2),
         99 => (Halt, 0),
         x => (Unknown(x), 1),
     }

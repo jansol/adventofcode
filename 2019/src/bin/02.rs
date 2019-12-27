@@ -48,35 +48,35 @@ mod tests {
     #[test]
     fn day02_part1_example_0() {
         let mut program = vec![1,9,10,3,2,3,11,0,99,30,40,50];
-        let _ = exec_intcode(&mut program[..], &Vec::new());
+        let _ = exec_intcode(&mut program[..], &[]);
         assert_eq!(program, vec![3500,9,10,70,2,3,11,0,99,30,40,50])
     }
 
     #[test]
     fn day02_part1_example_1() {
         let mut program = vec![1,0,0,0,99];
-        let _ = exec_intcode(&mut program[..], &Vec::new());
+        let _ = exec_intcode(&mut program[..], &[]);
         assert_eq!(program, vec![2,0,0,0,99]);
     }
 
     #[test]
     fn day02_part1_example_2() {
         let mut program = vec![2,3,0,3,99];
-        let _ = exec_intcode(&mut program[..], &Vec::new());
+        let _ = exec_intcode(&mut program[..], &[]);
         assert_eq!(program, vec![2,3,0,6,99]);
     }
 
     #[test]
     fn day02_part1_example_3() {
         let mut program = vec![2,4,4,5,99,0];
-        let _ = exec_intcode(&mut program[..], &Vec::new());
+        let _ = exec_intcode(&mut program[..], &[]);
         assert_eq!(program, vec![2,4,4,5,99,9801]);
     }
 
     #[test]
     fn day02_part1_example_4() {
         let mut program = vec![1,1,1,4,99,5,6,0,99];
-        let _ = exec_intcode(&mut program[..], &Vec::new());
+        let _ = exec_intcode(&mut program[..], &[]);
         assert_eq!(program, vec![30,1,1,4,2,5,6,0,99]);
     }
 }
